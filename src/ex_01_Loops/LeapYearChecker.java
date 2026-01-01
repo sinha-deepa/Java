@@ -1,8 +1,12 @@
 package ex_01_Loops;
 
+import java.util.Scanner;
+
 public class LeapYearChecker {
     public static void main(String[] args) {
-        for (int year = 2000; year <= 2025; year++) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a year to check if it's a leap year:");
+        int year = scanner.nextInt();
             boolean isLeapYear = false;
 
             if (year % 4 == 0) {
@@ -22,4 +26,3 @@ public class LeapYearChecker {
             }
         }
     }
-}
