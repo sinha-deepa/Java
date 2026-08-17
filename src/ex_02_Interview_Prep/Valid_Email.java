@@ -1,3 +1,51 @@
+/*
+Test for Invalid Emails
+
+"plainaddress" - Missing @ and domain
+"@invalid.com" - Missing username
+"joe@[123.123.123.123]" - Square brackets around IP address
+" näme@example.com" - Contains illegal character
+"john..doe@example.com" - Double dot
+"john@doe@example.com" - Double @
+"john@example@com" - Missing top level domain (.com)
+"john@example.c" - Top level domain too short
+"john@example.com1" - Top level domain cannot have numbers
+"<john@example..com>" - Double dot in domain name
+"john@example.com." - Trailing dot in domain name
+"<john@example..com>." - Double dots and trailing dot
+"john@example.com.." - Double dot before top level domain
+ */
+
+/*
+ * Email Regex Explanation:
+ *
+ * ^                         -> Start of the string
+ * [a-zA-Z0-9_+&*-]+         -> Username: allows letters, numbers, _, +, &, *, -
+ * (?:\.[a-zA-Z0-9_+&*-]+)* -> Optional additional username parts separated by '.'
+ * @                         -> Mandatory @ symbol
+ * (?:[a-zA-Z0-9-]+\.)+     -> Domain name followed by '.', one or more times
+ * [a-zA-Z]{2,}              -> Domain extension/TLD: letters only, minimum 2 characters, no maximum
+ * $                         -> End of the string
+ *
+ * Regex quantifiers:
+ * +   -> 1 or more
+ * *   -> 0 or more
+ * ?   -> 0 or 1
+ * {2,} -> Minimum 2 characters, no maximum
+ *
+ * (?:...) -> Non-capturing group; groups regex elements without storing the match.
+ *
+ * Note:
+ * In Java, "\\." is used to match a literal "." because "\\" escapes the
+ * backslash in the Java String, resulting in "\." being passed to the regex engine.
+ *
+ * Example valid emails:
+ * john@example.com
+ * john.kumar@example.co.in
+ * john+test@mycompany.technology
+ */
+
+
 package ex_02_Interview_Prep;
 
 import java.util.Scanner;
