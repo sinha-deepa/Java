@@ -45,6 +45,27 @@ Test for Invalid Emails
  * john+test@mycompany.technology
  */
 
+/*
+ * Pattern & Matcher:
+ *
+ * Pattern.compile(emailRegex)
+ * -> Compiles the regex String into a Pattern object.
+ * -> Pattern represents the compiled regular expression/rule.
+ *
+ * pat.matcher(email)
+ * -> Creates a Matcher object for the given email.
+ * -> Matcher applies the compiled Pattern to the input email.
+ *
+ * mat.matches()
+ * -> Checks whether the ENTIRE email matches the regex.
+ * -> Returns true if the complete email follows the regex; otherwise false.
+ *
+ * Flow:
+ * Regex String → Pattern.compile() → Pattern
+ * Pattern + Email → matcher() → Matcher
+ * Matcher → matches() → true / false
+ */
+
 
 package ex_02_Interview_Prep;
 
