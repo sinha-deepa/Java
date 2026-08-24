@@ -17,5 +17,7 @@ public class LeapYearCheckerUsingElseIf {
         } else {
             System.out.println("Not a Leap Year");
         }
+        scanner.close();
     }
 }
+
