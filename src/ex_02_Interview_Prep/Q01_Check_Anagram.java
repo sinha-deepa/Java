@@ -25,7 +25,7 @@ package ex_02_Interview_Prep;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Check_Anagram {
+public class Q01_Check_Anagram {
     public static void main(String[] args) {
 //        String s1 = "listen";
 //        String s2 = "silent";

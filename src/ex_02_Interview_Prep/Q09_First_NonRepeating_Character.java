@@ -2,7 +2,7 @@ package ex_02_Interview_Prep;
 
 import java.util.LinkedHashMap;
 
-public class First_NonRepeating_Character {
+public class Q09_First_NonRepeating_Character {
     public static void main(String[] args) {
         String str = "aabbcde";
 

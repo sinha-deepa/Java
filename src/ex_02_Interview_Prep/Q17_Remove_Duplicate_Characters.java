@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class Remove_Duplicate_Characters {
+public class Q17_Remove_Duplicate_Characters {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter string to remove duplicates : ");

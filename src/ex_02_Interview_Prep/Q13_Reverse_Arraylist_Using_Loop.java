@@ -3,7 +3,7 @@ package ex_02_Interview_Prep;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Reverse_Arraylist_Using_Loop {
+public class Q13_Reverse_Arraylist_Using_Loop {
 
     private static void reverse_arraylist(){
         Scanner sc = new Scanner(System.in) ;

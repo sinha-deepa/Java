@@ -34,7 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class File_Read_And_Tokenize {
+public class Q06_File_Read_And_Tokenize {
 
     private static void tokenizeLine(String line) {
         StringTokenizer tokenizer = new StringTokenizer(line, " ,.;!?");

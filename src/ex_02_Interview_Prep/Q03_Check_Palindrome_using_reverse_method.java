@@ -10,7 +10,7 @@ package ex_02_Interview_Prep;
 
 import java.util.Scanner;
 
-public class Check_Palindrome_using_reverse_method {
+public class Q03_Check_Palindrome_using_reverse_method {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the string to check for palindrome :");

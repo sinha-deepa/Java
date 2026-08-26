@@ -21,7 +21,7 @@ package ex_02_Interview_Prep;
 
 import java.util.HashMap;
 
-public class Find_Duplicate_Characters {
+public class Q07_Find_Duplicate_Characters {
     public static void main(String[] args) {
         String str = "testautomation";
 

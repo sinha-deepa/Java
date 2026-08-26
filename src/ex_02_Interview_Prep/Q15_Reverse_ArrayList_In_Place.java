@@ -3,7 +3,7 @@ package ex_02_Interview_Prep;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Reverse_ArrayList_In_Place {
+public class Q15_Reverse_ArrayList_In_Place {
 
     private static void reverseArrayList() {
 

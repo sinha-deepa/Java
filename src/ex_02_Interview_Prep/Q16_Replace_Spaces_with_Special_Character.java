@@ -6,7 +6,7 @@ Replace " " with _ or any char
 
 package ex_02_Interview_Prep;
 
-public class Replace_Spaces_with_Special_Character {
+public class Q16_Replace_Spaces_with_Special_Character {
     public static void main(String[] args) {
     String str = "QA Engineer";
 

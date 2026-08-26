@@ -1,6 +1,6 @@
 package ex_02_Interview_Prep;
 
-public class FrequencyUsingBounds {
+public class Q10_FrequencyUsingBounds {
     public static void main(String[] args) {
         int[] arr = {1, 2, 2, 2, 3, 4};
 

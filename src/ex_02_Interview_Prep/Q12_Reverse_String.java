@@ -11,7 +11,7 @@ package ex_02_Interview_Prep;
 
 import java.util.Scanner;
 
-public class Reverse_String {
+public class Q12_Reverse_String {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.println("Plz enter string to reverse : ");
