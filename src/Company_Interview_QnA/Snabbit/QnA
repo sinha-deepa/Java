@@ -1,0 +1,125 @@
+1. Scenario: A user logs in via OTP, but login fails on certain devices.
+
+   Question: How would you design test cases to validate login across SMS OTP, email OTP, and social logins?
+   What edge cases (expired OTP, multiple requests, network drop) would you cover?
+A. "I would design the test coverage across SMS OTP, email OTP, and social login, and validate the complete
+    authentication flow across supported devices, OS versions, network conditions, and app versions.
+    For OTP, I would cover valid/invalid OTP, expired OTP, resend OTP, multiple OTP requests, entering an older OTP
+    after requesting a new one, maximum retry attempts, rate limiting, incorrect phone/email, and OTP delivery delays.
+    For social login, I would cover successful/failed authentication, revoked permissions, cancelled login, existing vs
+    new users, and token/session expiry."
+
+   Device-specific failure
+
+   "Since the issue occurs only on certain devices, I would compare device model, OS version, app version, permissions,
+   SMS autofill behavior, network type, locale/timezone, and WebView/Chrome version, and collect Appium/device logs to
+   identify whether the failure is UI, OTP delivery, API, or device-specific."
+
+   1. Network & resilience
+   a. Network drop while requesting OTP
+   b. Network drop while submitting OTP
+   c. Switching Wi-Fi ↔ mobile data
+   d. Slow/intermittent network
+   e. API timeout / 4xx / 5xx
+   f. App background/foreground during OTP flow
+   g. App restart before verification
+
+   2. Reconciliation / backend validation
+        For authentication, reconciliation is not normally a payment concept. Instead, I would cross-validate the client
+        result with backend/API and authentication/session state:
+
+   Login attempt
+        ↓
+   OTP/Auth API
+        ↓
+   Authentication status
+        ↓
+   Token/session generated
+        ↓
+   DB/backend state
+        ↓
+   App successfully logged in
+
+   For example, if the UI says "Login successful" but the authentication API/session is unsuccessful, that's a defect.
+
+   Strong QA Lead closing statement
+
+   "My primary focus would be positive and negative functional coverage, device/OS compatibility, resilience under
+   network failures, security and rate limiting, and end-to-end validation between UI, authentication APIs and backend
+   session state. For device-specific failures, I would use logs and controlled comparison across devices to isolate
+   whether the issue is with the client, network, OTP provider, or backend."
+
+2. Scenario: User books a slot, payment succeeds, but no booking record is created.
+   Steps to Debug:
+   Inspect booking API logs.
+   Validate DB transaction commits.
+   Check message queues (if async booking confirmation).
+   Verify rollback handling in case of partial failures.
+A. Payment Succeeds but Booking Is Not Created
+
+   "I would debug this end-to-end by first tracing the transaction using the booking/order ID and payment transaction ID.
+   I would check the booking API logs to confirm whether the request reached the booking service and whether any validation
+   or server error occurred. Then I would verify the database transaction to see whether the booking insert was executed
+   and committed or rolled back. If booking creation is asynchronous, I would check the message queue for successful
+   publication, consumption, failures, retries, or duplicate messages. I would also verify rollback and compensation
+   handling for this partial-failure scenario."
+
+   Reconciliation
+
+   I would also perform payment-to-booking reconciliation:
+
+   Payment Gateway
+         ↓
+   Payment = SUCCESS
+         ↓
+   Our Payment DB
+         ↓
+   Booking DB
+         ↓
+   Booking = MISSING ❌
+
+   Compare payment ID, order/booking ID, amount, status and timestamps between the payment gateway and our systems.
+
+   If payment is successful but booking is missing, the system should have a recovery/compensation mechanism—for example,
+   retry booking creation or initiate/track a refund depending on the business rule.
+
+    QA Lead closing statement
+
+   "The key is to identify where the transaction broke—API, DB transaction, message queue, or downstream service—and
+   ensure we don't leave the customer in an inconsistent state where money is debited but the booking is missing."
+
+3. Snabbit introduces caching for faster slot lookups. How would you test cache hits/misses, stale data, and invalidation rules?
+A. Testing Cache for Slot Lookup
+
+   "I would validate both functional correctness and cache behavior. First, I would verify a cache miss:
+   the first slot request should fetch data from the source/database and populate the cache. A subsequent identical
+   request should be a cache hit and return the same valid data without unnecessarily querying the database."
+
+   Key test scenarios
+   Cache hit: Same slot request returns cached data.
+   Cache miss: First request fetches from DB/service and populates cache.
+   TTL/expiry: After cache expiry, data should be fetched fresh.
+   Stale data: Update/disable a slot in the DB and verify users don't receive outdated availability beyond the allowed TTL.
+   Invalidation: Booking/cancellation/slot modification should invalidate or refresh the relevant cache entry.
+   Concurrent requests: Multiple users requesting the same slot should not receive inconsistent availability.
+   Cache failure: If cache is unavailable, application should gracefully fall back to the source.
+   Negative scenarios: Invalid slot/date/service/location and empty results.
+   Performance: Compare response time for cache hit vs cache miss.
+   Reconciliation
+
+   For slot availability, I would cross-validate/reconcile the cached response against the source of
+   truth (DB/service):
+
+   DB / Slot Service = Source of Truth
+             ↓
+           Cache
+             ↓
+         Slot API
+             ↓
+          Client
+
+   If the cache says AVAILABLE but the DB says BOOKED, that's a consistency defect and could lead to double booking.
+
+   "I would test cache hit/miss behavior, TTL expiry, stale data, invalidation after slot changes, concurrent access,
+   cache failures and performance. Most importantly, I would reconcile cached slot availability against the source of
+   truth to ensure caching never results in incorrect or double-bookable slots."
